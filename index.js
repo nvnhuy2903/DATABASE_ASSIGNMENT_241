@@ -197,6 +197,14 @@ app.get('/getLineup/:id', (req, res) => {
 });
 
 
+//Lay ds du bi
+app.get('/getSub/:id', (req, res) => {
+    AccountModel.getSub(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
+
 
 app.listen(port, () => {
     console.log(`Ứng dụng đang lắng nghe trên port ${port}`);

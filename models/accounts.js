@@ -200,14 +200,14 @@ async function getRelevantRefs(name) {
 
 async function getPlayers(id) {
     return new Promise((resolve, reject) => { 
-        const query = 'call GetPlayersForClub(?)';
+        const query = 'call GetPlayersForClub(?);';
         con.query(query,[id], function (err, result, fields) {
             if (err) {
                 console.error('Lỗi khi gọi function: ' + err.stack);
                 return reject(err); 
             }
             
-            resolve(result[0],result[1]); 
+            resolve(result); 
         });
     });
 }
@@ -221,7 +221,7 @@ async function getHistory(id) {
                 return reject(err); 
             }
             
-            resolve(result[0],result[1]); 
+            resolve(result); 
         });
     });
 }
@@ -284,6 +284,21 @@ async function getLineups(id) {
     });
 }
 
+
+async function getSub(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetSub(?)';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
 async function getRank(id) {
     return new Promise((resolve, reject) => { 
         const query = 'select * from ranking';
@@ -303,6 +318,7 @@ async function getRank(id) {
 
 module.exports = {
     getYellow,
+    getRed,
     getGoal,
     getTopScorers,
     getAllTournament,
@@ -320,6 +336,7 @@ module.exports = {
     getCoaches,
     getTeamforMatch,
     getLineups,
-    getRank
+    getRank,
+    getSub
 };
 
