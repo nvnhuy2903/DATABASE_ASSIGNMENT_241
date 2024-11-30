@@ -206,6 +206,14 @@ app.get('/getSub/:id', (req, res) => {
 
 
 
+app.get('/getResult/:id', (req, res) => {
+    AccountModel.getResult(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
+
+
 app.listen(port, () => {
     console.log(`Ứng dụng đang lắng nghe trên port ${port}`);
 });

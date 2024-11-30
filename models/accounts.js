@@ -314,6 +314,21 @@ async function getRank(id) {
 }
 
 
+async function getResult(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'select * from result where matchid=?';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result); 
+        });
+    });
+}
+
+
 
 
 module.exports = {
@@ -337,6 +352,7 @@ module.exports = {
     getTeamforMatch,
     getLineups,
     getRank,
-    getSub
+    getSub,
+    getResult
 };
 
