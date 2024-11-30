@@ -328,6 +328,20 @@ async function getResult(id) {
     });
 }
 
+async function getMin(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'select GetPlayMinutes(?) as a';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0].a); 
+        });
+    });
+}
+
 
 
 
@@ -353,6 +367,7 @@ module.exports = {
     getLineups,
     getRank,
     getSub,
-    getResult
+    getResult,
+    getMin
 };
 

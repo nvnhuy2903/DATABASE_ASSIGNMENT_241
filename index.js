@@ -212,6 +212,12 @@ app.get('/getResult/:id', (req, res) => {
         .catch(err => res.status(500).json('that bai')); // Handle errors
 });
 
+//lay so phut thi dau cua 1 cau thu tu truoc den nay
+app.get('/getMin/:id', (req, res) => {
+    AccountModel.getMin(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
 
 
 app.listen(port, () => {
