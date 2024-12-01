@@ -220,6 +220,13 @@ app.get('/getMin/:id', (req, res) => {
 });
 
 
+//lay thong ve cac ban thang, the vnag, the do, thay nguoi cua 1 tran
+app.get('/getDetailMatch/:id', (req, res) => {
+    AccountModel.GetMatchDetail(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
 app.listen(port, () => {
     console.log(`Ứng dụng đang lắng nghe trên port ${port}`);
 });

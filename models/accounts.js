@@ -358,6 +358,21 @@ async function GetMatchResultsByTournament(id) {
 }
 
 
+async function GetMatchDetail(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetMatchDetailsByMatchID(?)';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+
 
 module.exports = {
     getYellow,
@@ -383,6 +398,7 @@ module.exports = {
     getSub,
     getResult,
     getMin,
-    GetMatchResultsByTournament
+    GetMatchResultsByTournament,
+    GetMatchDetail
 };
 
