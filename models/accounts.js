@@ -343,6 +343,20 @@ async function getMin(id) {
 }
 
 
+async function GetMatchResultsByTournament(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetMatchResultsByTournament(?)';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result); 
+        });
+    });
+}
+
 
 
 module.exports = {
@@ -368,6 +382,7 @@ module.exports = {
     getRank,
     getSub,
     getResult,
-    getMin
+    getMin,
+    GetMatchResultsByTournament
 };
 

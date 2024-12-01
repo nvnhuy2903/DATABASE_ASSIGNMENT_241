@@ -158,7 +158,7 @@ app.get('/getHistory/:id', (req, res) => {
 
 //lay thong tin tat ca tran dau thong qua id mua giai
 app.get('/getAllMatch/:id', (req, res) => {
-    AccountModel.getMatches(req.params.id)
+    AccountModel.GetMatchResultsByTournament(req.params.id)
         .then(data => res.json(data)) // Send the data back as a response
         .catch(err => res.status(500).json('that bai')); // Handle errors
 });
