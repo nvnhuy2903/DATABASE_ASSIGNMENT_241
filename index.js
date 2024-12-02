@@ -99,17 +99,29 @@ app.get('/coaches',(req,res,next)=>{
 // api tim kiem cau thu dua tren keyword nhap vao tu nguoi dung
 // co dang /searchPlayer?keyword=bru
 app.get('/searchPlayer', (req, res) => {
-    var keyword1 = req.query.keyword1 ? req.query.keyword1.toLowerCase() : '';
-    var keyword2 = req.query.keyword2 ? req.query.keyword2.toLowerCase() : '';
+    // Lấy các giá trị query parameter từ URL
+    var name = req.query.name ? req.query.name.toLowerCase() : '';  
+    var position = req.query.position ? req.query.position.toLowerCase() : '';  
+    var minAge = req.query.min_age ? parseInt(req.query.min_age) : 0;  
+    var maxAge = req.query.max_age ? parseInt(req.query.max_age) : 100;  
+    var minSalary = req.query.min_salary ? parseFloat(req.query.min_salary) : 0;  
+    var maxSalary = req.query.max_salary ? parseFloat(req.query.max_salary) : 100000000; 
 
-    
-    if (!keyword1 && !keyword2) {
-        return res.status(400).json({ message: 'Keyword is required' }); // Handle empty keyword
+    if (!name && !position&& !minAge && !maxAge && !minSalary && !maxSalary) {
+        return res.status(400).json({ message: 'At least one search parameter (name or position) is required.' });
     }
 
-    AccountModel.getRelevantPlayers(keyword1,keyword2)
-        .then(data => res.json(data)) // Send the data back as a response
-        .catch(err => res.status(500).json('that bai')); // Handle errors
+    AccountModel.getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary)
+        .then(data => {
+            if (data) {
+                return res.json(data);
+            } else {
+                return res.status(404).json({ message: 'No players found matching the search criteria.'});
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ message: 'Error while searching players', details: err });
+        });
 });
 
 
@@ -294,7 +306,7 @@ app.post('/updateMatch', async (req, res) => {
                 return res.status(200).json({ message: 'Update successfully' });
             }
         })
-        .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+        .catch(err => res.status(500).json({ message: 'Cannot update match that happened' })) // Handle errors
 });
 
 app.post('/deleteMatch', async (req, res) => {

@@ -158,10 +158,11 @@ async function getAllCoaches() {
     });
 }
 
-async function getRelevantPlayers(name, p) {
+async function getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary) {
     return new Promise((resolve, reject) => { 
-        const query = 'call SearchPlayers(?,?)';
-        con.query(query,[`%${name}%`,`%${p}%`], function (err, result, fields) {
+        const query = 'call SearchPlayers(?,?,?,?,?,?)';
+        con.query(query,[`%${name}%`,`%${position}%`,minAge,maxAge,minSalary,maxSalary
+        ], function (err, result, fields) {
             if (err) {
                 console.error('Lỗi khi gọi function: ' + err.stack);
                 return reject(err); 
