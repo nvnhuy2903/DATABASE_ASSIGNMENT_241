@@ -430,6 +430,36 @@ async function deletePlayer(p_Id) {
 }
 
 
+async function deleteMatch(p_Id) {
+    return new Promise((resolve, reject) => {
+        const query = 'CALL DeleteMatch(?)';
+        con.query(query, [p_Id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi thủ tục DeleteMatch: ' + err.stack);
+                return reject(err);  
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+
+
+async function updateMatch(id,newdate) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call updateMatch(?,?)';
+        con.query(query,[id,newdate], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
 module.exports = {
     getYellow,
     getRed,
@@ -459,6 +489,8 @@ module.exports = {
     insertPlayer,
     updatePlayer,
     deletePlayer,
-    getInformation
+    getInformation,
+    deleteMatch,
+    updateMatch
 };
 

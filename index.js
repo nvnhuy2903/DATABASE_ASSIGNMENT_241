@@ -275,12 +275,40 @@ app.post('/deletePlayer', async (req, res) => {
     AccountModel.deletePlayer(Id)
         .then(data => {
             if (data) {
-                return res.json(data); // Send the data back as a response
+                return res.status(200).json({ message: 'Cannot delete player that attended any match before or be possessed by any club before' }); // Send the data back as a response
             } else {
                 return res.status(200).json({ message: 'Delete successfully' });
             }
         })
+        .catch(err => res.status(500).json({ message: 'Cannot delete player that attended any match before or be possessed by any club before' })) // Handle errors
+});
+
+app.post('/updateMatch', async (req, res) => {
+    const { Id,newdate } = req.body;
+
+    AccountModel.updateMatch(Id,newdate)
+        .then(data => {
+            if (data) {
+                return res.json(data); // Send the data back as a response
+            } else {
+                return res.status(200).json({ message: 'Update successfully' });
+            }
+        })
         .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+});
+
+app.post('/deleteMatch', async (req, res) => {
+    const { Id } = req.body;
+
+    AccountModel.deleteMatch(Id)
+        .then(data => {
+            if (data) {
+                return res.json(data); // Send the data back as a response
+            } else {
+                return res.status(200).json({ message: 'Delete match successfully' });
+            }
+        })
+        .catch(err => res.status(500).json({ message: 'Cannot delete match that happened' }))
 });
 
 
