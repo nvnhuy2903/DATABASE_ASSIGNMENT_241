@@ -143,16 +143,16 @@ async function getAllCoaches() {
     });
 }
 
-async function getRelevantPlayers(name) {
+async function getRelevantPlayers(name, p) {
     return new Promise((resolve, reject) => { 
-        const query = 'SELECT * FROM players WHERE LOWER(firstname) like ? or lower(lastname) LIKE ?';
-        con.query(query,[`%${name}%`,`%${name}%`], function (err, result, fields) {
+        const query = 'call SearchPlayers(?,?)';
+        con.query(query,[`%${name}%`,`%${p}%`], function (err, result, fields) {
             if (err) {
                 console.error('Lỗi khi gọi function: ' + err.stack);
                 return reject(err); 
             }
             
-            resolve(result); 
+            resolve(result[0]); 
         });
     });
 }

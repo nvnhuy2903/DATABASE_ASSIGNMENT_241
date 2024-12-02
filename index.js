@@ -92,12 +92,15 @@ app.get('/coaches',(req,res,next)=>{
 // api tim kiem cau thu dua tren keyword nhap vao tu nguoi dung
 // co dang /searchPlayer?keyword=bru
 app.get('/searchPlayer', (req, res) => {
-    const keyword = req.query.keyword ? req.query.keyword.toLowerCase() : '';
+    var keyword1 = req.query.keyword1 ? req.query.keyword1.toLowerCase() : '';
+    var keyword2 = req.query.keyword2 ? req.query.keyword2.toLowerCase() : '';
+
     
-    if (!keyword) {
+    if (!keyword1 && !keyword2) {
         return res.status(400).json({ message: 'Keyword is required' }); // Handle empty keyword
     }
-    AccountModel.getRelevantPlayers(keyword)
+
+    AccountModel.getRelevantPlayers(keyword1,keyword2)
         .then(data => res.json(data)) // Send the data back as a response
         .catch(err => res.status(500).json('that bai')); // Handle errors
 });
