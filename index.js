@@ -250,6 +250,8 @@ app.get('/getDetailMatch/:id', (req, res) => {
 });
 
 
+
+
 app.post('/insertPlayer', (req, res) => {
     const { Salary, Birthday, FirstName, LastName, Position } = req.body;
 
@@ -322,6 +324,15 @@ app.post('/deleteMatch', async (req, res) => {
         })
         .catch(err => res.status(500).json({ message: 'Cannot delete match that happened' }))
 });
+
+
+app.get('/getPlayerwithRed', (req, res) => {
+    const { num } = req.body;
+    AccountModel.getRedPlayers(num)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
 
 
 app.listen(port, () => {
