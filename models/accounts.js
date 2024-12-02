@@ -158,10 +158,10 @@ async function getAllCoaches() {
     });
 }
 
-async function getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary) {
+async function getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary,numred) {
     return new Promise((resolve, reject) => { 
-        const query = 'call SearchPlayers(?,?,?,?,?,?)';
-        con.query(query,[`%${name}%`,`%${position}%`,minAge,maxAge,minSalary,maxSalary
+        const query = 'call SearchPlayers(?,?,?,?,?,?,?)';
+        con.query(query,[`%${name}%`,`%${position}%`,minAge,maxAge,minSalary,maxSalary,numred
         ], function (err, result, fields) {
             if (err) {
                 console.error('Lỗi khi gọi function: ' + err.stack);
@@ -490,6 +490,34 @@ async function getMatchbyName(name) {
     });
 }
 
+async function getReferee(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetMatchReferee(?)';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+
+async function getStadium(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetMatchStadium(?)';
+        con.query(query,[id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
 
 
 module.exports = {
@@ -525,6 +553,8 @@ module.exports = {
     deleteMatch,
     updateMatch,
     getRedPlayers,
-    getMatchbyName
+    getMatchbyName,
+    getReferee,
+    getStadium
 };
 

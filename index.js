@@ -106,12 +106,13 @@ app.get('/searchPlayer', (req, res) => {
     var maxAge = req.query.max_age ? parseInt(req.query.max_age) : 100;  
     var minSalary = req.query.min_salary ? parseFloat(req.query.min_salary) : 0;  
     var maxSalary = req.query.max_salary ? parseFloat(req.query.max_salary) : 100000000; 
+    var numred = req.query.numred ? parseFloat(req.query.numred):0;
 
-    if (!name && !position&& !minAge && !maxAge && !minSalary && !maxSalary) {
+    if (!name && !position&& !minAge && !maxAge && !minSalary && !maxSalary && !numred) {
         return res.status(400).json({ message: 'At least one search parameter (name or position) is required.' });
     }
 
-    AccountModel.getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary)
+    AccountModel.getRelevantPlayers(name, position, minAge, maxAge, minSalary, maxSalary,numred)
         .then(data => {
             if (data) {
                 return res.json(data);
@@ -337,6 +338,20 @@ app.get('/getPlayerwithRed', (req, res) => {
 app.get('/getMatchbyName', (req, res) => {
     var name = req.query.name ? req.query.name.toLowerCase() : '';  
     AccountModel.getMatchbyName(name)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
+
+app.get('/getReferee/:id', (req, res) => {
+    AccountModel.getReferee(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
+
+app.get('/getStadium/:id', (req, res) => {
+    AccountModel.getStadium(req.params.id)
         .then(data => res.json(data)) // Send the data back as a response
         .catch(err => res.status(500).json('that bai')); // Handle errors
 });
