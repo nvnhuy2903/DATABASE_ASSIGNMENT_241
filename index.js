@@ -227,6 +227,32 @@ app.get('/getDetailMatch/:id', (req, res) => {
         .catch(err => res.status(500).json('that bai')); // Handle errors
 });
 
+
+app.post('/insertPlayer', (req, res) => {
+    const { Salary, Birthday, FirstName, LastName, Position } = req.body;
+    AccountModel.insertPlayer(Salary, Birthday, FirstName, LastName, Position)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+});
+
+
+app.post('/updatePlayer', async (req, res) => {
+    const { Id, Salary, Birthday, FirstName, LastName, Position } = req.body;
+
+    AccountModel.updatePlayer(Id,Salary, Birthday, FirstName, LastName, Position)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+});
+
+app.post('/deletePlayer', async (req, res) => {
+    const { Id } = req.body;
+
+    AccountModel.deletePlayer(Id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+});
+
+
 app.listen(port, () => {
     console.log(`Ứng dụng đang lắng nghe trên port ${port}`);
 });

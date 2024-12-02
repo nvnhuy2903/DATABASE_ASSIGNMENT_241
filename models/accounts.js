@@ -301,14 +301,14 @@ async function getSub(id) {
 
 async function getRank(id) {
     return new Promise((resolve, reject) => { 
-        const query = 'select * from ranking';
+        const query = 'call GetRankingWithClubNameByTournament(?)';
         con.query(query,[id], function (err, result, fields) {
             if (err) {
                 console.error('Lỗi khi gọi function: ' + err.stack);
                 return reject(err); 
             }
             
-            resolve(result); 
+            resolve(result[0]); 
         });
     });
 }
@@ -372,6 +372,47 @@ async function GetMatchDetail(id) {
     });
 }
 
+async function insertPlayer(p_Salary, p_Birthday, p_FirstName, p_LastName, p_Position) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call InsertPlayer(?,?,?,?,?)';
+        con.query(query,[p_Salary, p_Birthday, p_FirstName, p_LastName, p_Position], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+async function updatePlayer(id,p_Salary, p_Birthday, p_FirstName, p_LastName, p_Position) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call UpdatePlayer(?,?,?,?,?,?)';
+        con.query(query,[id,p_Salary, p_Birthday, p_FirstName, p_LastName, p_Position], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+async function deletePlayer(p_Id) {
+    return new Promise((resolve, reject) => {
+        const query = 'CALL DeletePlayer(?)';
+        con.query(query, [p_Id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi thủ tục DeletePlayer: ' + err.stack);
+                return reject(err);  
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
 
 
 module.exports = {
@@ -399,6 +440,9 @@ module.exports = {
     getResult,
     getMin,
     GetMatchResultsByTournament,
-    GetMatchDetail
+    GetMatchDetail,
+    insertPlayer,
+    updatePlayer,
+    deletePlayer
 };
 
