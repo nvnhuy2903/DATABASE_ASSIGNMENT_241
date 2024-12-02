@@ -334,6 +334,14 @@ app.get('/getPlayerwithRed', (req, res) => {
 });
 
 
+app.get('/getMatchbyName', (req, res) => {
+    var name = req.query.name ? req.query.name.toLowerCase() : '';  
+    AccountModel.getMatchbyName(name)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+});
+
+
 
 app.listen(port, () => {
     console.log(`Ứng dụng đang lắng nghe trên port ${port}`);

@@ -476,6 +476,21 @@ async function getRedPlayers(num) {
 }
 
 
+async function getMatchbyName(name) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetMatchesByTeamName(?)';
+        con.query(query,[`%${name}%`], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err); 
+            }
+            
+            resolve(result[0]); 
+        });
+    });
+}
+
+
 
 module.exports = {
     getYellow,
@@ -509,6 +524,7 @@ module.exports = {
     getInformation,
     deleteMatch,
     updateMatch,
-    getRedPlayers
+    getRedPlayers,
+    getMatchbyName
 };
 
