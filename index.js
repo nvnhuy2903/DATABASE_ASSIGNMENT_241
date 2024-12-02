@@ -39,6 +39,13 @@ app.get('/goal/:id',(req,res,next)=>{
 
 
 
+app.get('/getInfo/:id',(req,res,next)=>{
+    AccountModel.getInformation(req.params.id)
+        .then(data => res.json(data)) // Send the data back as a response
+        .catch(err => res.status(500).json('that bai')); // Handle errors
+})
+
+
 // danh sach cac cau thu co so ban thang nhieu nhat trong 1 giai dau
 // id là id cua mua giai
 app.get('/topscorer/:id',(req,res,next)=>{
@@ -233,9 +240,18 @@ app.get('/getDetailMatch/:id', (req, res) => {
 
 app.post('/insertPlayer', (req, res) => {
     const { Salary, Birthday, FirstName, LastName, Position } = req.body;
+
     AccountModel.insertPlayer(Salary, Birthday, FirstName, LastName, Position)
-        .then(data => res.json(data)) // Send the data back as a response
-        .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
+        .then(data => {
+            if (data) {
+                return res.json(data); // Send the data back as a response
+            } else {
+                return res.status(200).json({ message: 'Insert successfully' });
+            }
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message, details: err });
+        }); 
 });
 
 
@@ -243,7 +259,13 @@ app.post('/updatePlayer', async (req, res) => {
     const { Id, Salary, Birthday, FirstName, LastName, Position } = req.body;
 
     AccountModel.updatePlayer(Id,Salary, Birthday, FirstName, LastName, Position)
-        .then(data => res.json(data)) // Send the data back as a response
+        .then(data => {
+            if (data) {
+                return res.json(data); // Send the data back as a response
+            } else {
+                return res.status(200).json({ message: 'Update successfully' });
+            }
+        })
         .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
 });
 
@@ -251,7 +273,13 @@ app.post('/deletePlayer', async (req, res) => {
     const { Id } = req.body;
 
     AccountModel.deletePlayer(Id)
-        .then(data => res.json(data)) // Send the data back as a response
+        .then(data => {
+            if (data) {
+                return res.json(data); // Send the data back as a response
+            } else {
+                return res.status(200).json({ message: 'Delete successfully' });
+            }
+        })
         .catch(err => res.status(500).json({ message: err.message, details: err })) // Handle errors
 });
 

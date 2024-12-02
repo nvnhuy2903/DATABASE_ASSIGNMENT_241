@@ -59,6 +59,21 @@ async function getGoal(id) {
     });
 }
 
+
+async function getInformation(id) {
+    return new Promise((resolve, reject) => { 
+        const query = 'call GetPlayerInfo(?)';  // Sử dụng tham số '?' trong query
+        con.query(query, [id], function (err, result, fields) {
+            if (err) {
+                console.error('Lỗi khi gọi function: ' + err.stack);
+                return reject(err);  
+            }
+                        // In ra tổng lương trả về từ function
+            resolve(result[0]);  
+        });
+    });
+}
+
 async function getTopScorers(id) {
     return new Promise((resolve, reject) => { 
         const query='call GetTopScorers(?)';
@@ -352,7 +367,7 @@ async function GetMatchResultsByTournament(id) {
                 return reject(err); 
             }
             
-            resolve(result); 
+            resolve(result[0]); 
         });
     });
 }
@@ -443,6 +458,7 @@ module.exports = {
     GetMatchDetail,
     insertPlayer,
     updatePlayer,
-    deletePlayer
+    deletePlayer,
+    getInformation
 };
 
