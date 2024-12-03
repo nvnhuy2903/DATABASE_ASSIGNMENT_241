@@ -2,10 +2,10 @@ const mysql = require('mysql2');
 
 // Cấu hình kết nối MySQL
 const con = mysql.createConnection({
-  host: 'nhathuy-mysql-server-cr10.mysql.database.azure.com',      // Địa chỉ máy chủ MySQL
-  user: 'nhathuy123',           // Tên người dùng MySQL (mặc định là 'root')
-  password: 'Toilaai123.',           // Mật khẩu người dùng MySQL (nếu có, nếu không để trống)
-  database: 'btl_csdl_official' // Tên cơ sở dữ liệu cần kết nối
+  host: 'nhathuy-mysql-server-cr10.mysql.database.azure.com',    
+  user: 'nhathuy123',          
+  password: 'Toilaai123.',         
+  database: 'btl_csdl_official' 
 });
 
 // Kết nối đến MySQL
